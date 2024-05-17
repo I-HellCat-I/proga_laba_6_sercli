@@ -1,6 +1,4 @@
-package Server.Network;
-
-import Classes.SendedFlatUpdateRecord;
+package Classes;
 
 public record CommandMessage(String commandClass, int numericArgument, SendedFlatUpdateRecord sendedFlatUpdateRecord) {
 

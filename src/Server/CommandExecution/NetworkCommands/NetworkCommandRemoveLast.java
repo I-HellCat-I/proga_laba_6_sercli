@@ -1,14 +1,14 @@
-package Server.CommandExecution.Commands;
+package Server.CommandExecution.NetworkCommands;
 
+import Classes.CommandMessage;
 import Classes.ServerContext;
-import Server.CommandExecution.Command;
-import Server.Network.CommandMessage;
+import Server.CommandExecution.NetworkCommand;
 
 import java.util.EmptyStackException;
 
-public class CommandRemoveLast extends Command {
+public class NetworkCommandRemoveLast extends NetworkCommand {
 
-    public CommandRemoveLast(ServerContext serverContext) {
+    public NetworkCommandRemoveLast(ServerContext serverContext) {
         super(serverContext);
     }
 

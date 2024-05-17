@@ -1,11 +1,11 @@
-package Server.CommandExecution.Commands;
+package Server.CommandExecution.NetworkCommands;
 
+import Classes.CommandMessage;
 import Classes.ServerContext;
-import Server.CommandExecution.Command;
-import Server.Network.CommandMessage;
+import Server.CommandExecution.NetworkCommand;
 
-public class CommandClear extends Command {
-    public CommandClear( ServerContext serverContext) {
+public class NetworkCommandClear extends NetworkCommand {
+    public NetworkCommandClear(ServerContext serverContext) {
         super(serverContext);
     }
 

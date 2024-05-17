@@ -1,11 +1,11 @@
-package Server.CommandExecution.Commands;
+package Server.CommandExecution.NetworkCommands;
 
+import Classes.CommandMessage;
 import Classes.ServerContext;
-import Server.CommandExecution.Command;
-import Server.Network.CommandMessage;
+import Server.CommandExecution.NetworkCommand;
 
-public class CommandSumOfNumberOfRooms extends Command {
-    public CommandSumOfNumberOfRooms(ServerContext serverContext) {
+public class NetworkCommandSumOfNumberOfRooms extends NetworkCommand {
+    public NetworkCommandSumOfNumberOfRooms(ServerContext serverContext) {
         super(serverContext);
     }
 

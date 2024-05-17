@@ -1,11 +1,11 @@
-package Server.CommandExecution.Commands;
+package Server.CommandExecution.NetworkCommands;
 
+import Classes.CommandMessage;
 import Classes.ServerContext;
-import Server.CommandExecution.Command;
-import Server.Network.CommandMessage;
+import Server.CommandExecution.NetworkCommand;
 
-public class CommandSort extends Command {
-    public CommandSort(ServerContext serverContext) {
+public class NetworkCommandSort extends NetworkCommand {
+    public NetworkCommandSort(ServerContext serverContext) {
         super(serverContext);
     }
 

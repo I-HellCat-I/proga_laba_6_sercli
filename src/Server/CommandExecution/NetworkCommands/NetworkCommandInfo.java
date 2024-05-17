@@ -1,11 +1,11 @@
-package Server.CommandExecution.Commands;
+package Server.CommandExecution.NetworkCommands;
 
+import Classes.CommandMessage;
 import Classes.ServerContext;
-import Server.CommandExecution.Command;
-import Server.Network.CommandMessage;
+import Server.CommandExecution.NetworkCommand;
 
-public class CommandInfo extends Command {
-    public CommandInfo(ServerContext serverContext) {
+public class NetworkCommandInfo extends NetworkCommand {
+    public NetworkCommandInfo(ServerContext serverContext) {
         super(serverContext);
     }
 

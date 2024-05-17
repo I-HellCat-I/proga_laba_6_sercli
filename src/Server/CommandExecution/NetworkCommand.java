@@ -1,18 +1,18 @@
 package Server.CommandExecution;
 
+import Classes.CommandMessage;
 import Classes.ServerContext;
-import Server.Network.CommandMessage;
 
 import java.io.IOException;
 
 /**
  * База для всех команд.
  */
-public abstract class Command {
+public abstract class NetworkCommand {
 
     protected ServerContext serverContext;
 
-    public Command(ServerContext serverContext) {
+    public NetworkCommand(ServerContext serverContext) {
         this.serverContext = serverContext;
     }
 

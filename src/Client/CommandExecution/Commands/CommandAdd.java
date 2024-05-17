@@ -1,9 +1,9 @@
 package Client.CommandExecution.Commands;
 
 import Classes.ClientContext;
+import Classes.CommandMessage;
 import Classes.SendedFlatUpdateRecord;
 import Client.CommandExecution.Command;
-import Client.Network.CommandMessage;
 
 import java.io.IOException;
 
@@ -15,6 +15,7 @@ public class CommandAdd extends Command {
 
     @Override
     public String execute() throws IOException {
+        clientContext.getCommunicationsArray().handshake();
         try{
             SendedFlatUpdateRecord toAdd = new SendedFlatUpdateRecord(-1, clientContext.getInteractor().inputFlat(false));
             if (toAdd != null) {

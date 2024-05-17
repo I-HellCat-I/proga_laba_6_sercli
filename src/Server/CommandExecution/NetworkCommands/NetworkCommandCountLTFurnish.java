@@ -1,11 +1,11 @@
-package Server.CommandExecution.Commands;
+package Server.CommandExecution.NetworkCommands;
 
+import Classes.CommandMessage;
 import Classes.ServerContext;
-import Server.CommandExecution.Command;
-import Server.Network.CommandMessage;
+import Server.CommandExecution.NetworkCommand;
 
-public class CommandCountLTFurnish extends Command {
-    public CommandCountLTFurnish(ServerContext serverContext) {
+public class NetworkCommandCountLTFurnish extends NetworkCommand {
+    public NetworkCommandCountLTFurnish(ServerContext serverContext) {
         super(serverContext);
     }
 

@@ -1,11 +1,11 @@
-package Server.CommandExecution.Commands;
+package Server.CommandExecution.NetworkCommands;
 
+import Classes.CommandMessage;
 import Classes.ServerContext;
-import Server.CommandExecution.Command;
-import Server.Network.CommandMessage;
+import Server.CommandExecution.NetworkCommand;
 
-public class CommandRemoveAt extends Command {
-    public CommandRemoveAt(ServerContext serverContext) {
+public class NetworkCommandRemoveAt extends NetworkCommand {
+    public NetworkCommandRemoveAt(ServerContext serverContext) {
         super(serverContext);
     }
 

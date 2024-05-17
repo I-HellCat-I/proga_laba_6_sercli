@@ -1,14 +1,14 @@
-package Server.CommandExecution.Commands;
+package Server.CommandExecution.NetworkCommands;
 
-import Classes.ServerContext;
+import Classes.CommandMessage;
 import Classes.House;
-import Server.CommandExecution.Command;
-import Server.Network.CommandMessage;
+import Classes.ServerContext;
+import Server.CommandExecution.NetworkCommand;
 
 import java.util.ArrayList;
 
-public class CommandPrintUniqueHouse extends Command {
-    public CommandPrintUniqueHouse(ServerContext serverContext) {
+public class NetworkCommandPrintUniqueHouse extends NetworkCommand {
+    public NetworkCommandPrintUniqueHouse(ServerContext serverContext) {
         super(serverContext);
     }
 

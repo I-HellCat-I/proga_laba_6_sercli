@@ -1,17 +1,17 @@
-package Server.CommandExecution.Commands;
+package Server.CommandExecution.NetworkCommands;
 
+import Classes.CommandMessage;
 import Classes.ServerContext;
-import Server.CommandExecution.Command;
-import Server.Network.CommandMessage;
+import Server.CommandExecution.NetworkCommand;
 
-public class CommandExecuteScript extends Command {
-    public CommandExecuteScript(ServerContext serverContext) {
+public class NetworkCommandExecuteScript extends NetworkCommand {
+    public NetworkCommandExecuteScript(ServerContext serverContext) {
         super(serverContext);
     }
 
 //    @Override
 //    public String execute() {
-//        return context.getInteractor().executeScript(args[0]);
+//        return serverContext.getInteractor().executeScript(args[0]);
 //    }
 
     @Override

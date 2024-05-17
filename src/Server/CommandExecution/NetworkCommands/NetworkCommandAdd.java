@@ -1,13 +1,13 @@
-package Server.CommandExecution.Commands;
+package Server.CommandExecution.NetworkCommands;
 
-import Classes.ServerContext;
+import Classes.CommandMessage;
 import Classes.Flat;
-import Server.CommandExecution.Command;
-import Server.Network.CommandMessage;
+import Classes.ServerContext;
+import Server.CommandExecution.NetworkCommand;
 
 
-public class CommandAdd extends Command {
-    public CommandAdd(ServerContext serverContext) {
+public class NetworkCommandAdd extends NetworkCommand {
+    public NetworkCommandAdd(ServerContext serverContext) {
         super(serverContext);
     }
 

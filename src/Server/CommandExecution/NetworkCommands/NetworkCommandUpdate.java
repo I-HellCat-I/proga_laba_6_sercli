@@ -1,17 +1,17 @@
-package Server.CommandExecution.Commands;
+package Server.CommandExecution.NetworkCommands;
 
+import Classes.CommandMessage;
 import Classes.ServerContext;
-import Server.CommandExecution.Command;
-import Server.Network.CommandMessage;
+import Server.CommandExecution.NetworkCommand;
 
-public class CommandUpdate extends Command {
-    public CommandUpdate(ServerContext serverContext) {
+public class NetworkCommandUpdate extends NetworkCommand {
+    public NetworkCommandUpdate(ServerContext serverContext) {
         super(serverContext);
     }
 
     @Override
     public String execute(CommandMessage message) {
-        if (serverContext.getStructureStorage().updateFlatByRecord(message.sendedFlatUpdateRecord())) {
+        if (!serverContext.getStructureStorage().updateFlatByRecord(message.sendedFlatUpdateRecord())) {
             return ("Квартиры с таким Id не найдено, ничего обновляться не будет");
         }
         return "Ok";

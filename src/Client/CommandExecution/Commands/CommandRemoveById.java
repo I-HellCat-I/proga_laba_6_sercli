@@ -1,8 +1,8 @@
 package Client.CommandExecution.Commands;
 
 import Classes.ClientContext;
+import Classes.CommandMessage;
 import Client.CommandExecution.Command;
-import Client.Network.CommandMessage;
 
 import java.io.IOException;
 

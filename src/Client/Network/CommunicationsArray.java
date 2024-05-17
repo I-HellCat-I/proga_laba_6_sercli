@@ -1,11 +1,16 @@
 package Client.Network;
 
 import Classes.ClientContext;
+import Classes.CommandMessage;
+import Classes.Message;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.Stack;
 
 
@@ -19,6 +24,7 @@ public class CommunicationsArray {
     public CommunicationsArray(ClientContext clientContext, InetAddress host, int serverPort) throws IOException {
         this.clientContext = clientContext;
         this.datagramSocket = new DatagramSocket();
+        datagramSocket.setSoTimeout(4000);
         this.host = host;
         this.serverPort = serverPort;
         mapper = JsonMapper.builder().findAndAddModules().build();
@@ -40,4 +46,9 @@ public class CommunicationsArray {
         datagramSocket.send(packet);
     }
 
+    public void handshake() throws IOException {
+        sendMessage(new CommandMessage("CommandExecution.Commands.CommandHandShake", -1, null));
+        datagramSocket.receive(new DatagramPacket(new byte[1000], 1000));
+        datagramSocket.receive(new DatagramPacket(new byte[1000], 1000));
+    }
 }

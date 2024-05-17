@@ -14,6 +14,7 @@ public class Main {
             return;
         }
         while (true){
+            System.out.print(">");
             clientContext.getInteractor().masterProcessInput(clientContext.getInteractor().getScanner().nextLine());
         }
     }
