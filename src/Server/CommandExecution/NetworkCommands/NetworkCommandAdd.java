@@ -1,7 +1,7 @@
 package Server.CommandExecution.NetworkCommands;
 
-import Classes.CommandMessage;
 import Classes.Flat;
+import Classes.Message;
 import Classes.ServerContext;
 import Server.CommandExecution.NetworkCommand;
 
@@ -12,8 +12,8 @@ public class NetworkCommandAdd extends NetworkCommand {
     }
 
     @Override
-    public String execute(CommandMessage message) {
-        serverContext.getStructureStorage().addFlat(new Flat(message.sendedFlatUpdateRecord().flatUpdateRecord()));
+    public String execute(Message message) {
+        serverContext.getStructureStorage().addFlat(new Flat(message.commandMessage().sendedFlatUpdateRecord().flatUpdateRecord()));
         return "Ok";
     }
 

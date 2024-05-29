@@ -21,7 +21,7 @@ public class Main {
         };
         serverCommandsExecutor.start();
         while (true) {
-            serverContext.getCommandManager().exec(serverContext.getServerCommunicationsArray().getCommandMessage(), serverContext.getServerCommunicationsArray());
+            serverContext.getCommandManager().exec(serverContext.getServerCommunicationsArray().getMessage(), serverContext.getServerCommunicationsArray());
         }
     }
 }

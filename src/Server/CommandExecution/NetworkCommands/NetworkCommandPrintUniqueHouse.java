@@ -1,7 +1,7 @@
 package Server.CommandExecution.NetworkCommands;
 
-import Classes.CommandMessage;
 import Classes.House;
+import Classes.Message;
 import Classes.ServerContext;
 import Server.CommandExecution.NetworkCommand;
 
@@ -13,7 +13,7 @@ public class NetworkCommandPrintUniqueHouse extends NetworkCommand {
     }
 
     @Override
-    public String execute(CommandMessage message) {
+    public String execute(Message message) {
         ArrayList<House> uniques = serverContext.getStructureStorage().getUniqueHouse();
         return String.valueOf(uniques);
     }

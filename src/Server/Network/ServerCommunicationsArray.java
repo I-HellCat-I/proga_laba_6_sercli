@@ -27,13 +27,13 @@ public class ServerCommunicationsArray {
         Logger.getAnonymousLogger().log(Level.INFO, "Started");
     }
 
-    public CommandMessage getCommandMessage() throws IOException {
+    public Message getMessage() throws IOException {
         ByteBuffer byteBuffer = ByteBuffer.allocate(100000);
         lastClient = datagramChannel.receive(byteBuffer);
         Logger.getAnonymousLogger().log(Level.INFO, "received message");
         Message message = mapper.readValue(byteBuffer.array(), new TypeReference<Message>() {});
         System.out.println(message);
-        return message.commandMessage();
+        return message;
     }
 
 

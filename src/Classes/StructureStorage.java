@@ -1,12 +1,14 @@
 package Classes;
 
+import Server.Network.PostgresManager;
 import lombok.Getter;
 
+import java.io.IOException;
 import java.lang.ref.Cleaner;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Stack;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -32,13 +34,16 @@ public class StructureStorage implements Cleaner.Cleanable {
 
     public void load() { // Запрашивает загрузку коллекции у файлового менеджера
         try {
-            collection.addAll((Collection<? extends Flat>) serverContext.getFileManager().loadCollection());
-        } catch (NullPointerException e) {
-            // ignore
+            new PostgresManager(serverContext).loadCollectionFromDB();
+            // collection.addAll((Collection<? extends Flat>) serverContext.getFileManager().loadCollection());
+        } catch (NullPointerException | SQLException | IOException e) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Something went wrong during loading of collection");
+            System.out.println(Arrays.toString(e.getStackTrace()));
         }
     }
 
     public boolean removeFlatById(Integer id) {
+        PostgresManager manager = new PostgresManager(serverContext);
         for (Flat flat : collection) {
             if (Objects.equals(flat.getId(), id)) {
                 flat.markForDeletion();

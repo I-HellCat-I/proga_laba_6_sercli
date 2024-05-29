@@ -1,6 +1,6 @@
 package Server.CommandExecution.NetworkCommands;
 
-import Classes.CommandMessage;
+import Classes.Message;
 import Classes.ServerContext;
 import Server.CommandExecution.NetworkCommand;
 
@@ -13,7 +13,7 @@ public class NetworkCommandRemoveLast extends NetworkCommand {
     }
 
     @Override
-    public String execute(CommandMessage message) {
+    public String execute(Message message) {
         try {
             serverContext.getStructureStorage().removeLastFlat();
         } catch (EmptyStackException e){

@@ -23,6 +23,7 @@ public class ServerContext {
     protected boolean exitCommandUsed = false;
     protected final ZonedDateTime initDate = ZonedDateTime.now();
     protected ServerCommunicationsArray serverCommunicationsArray;
+
     {
         try {
             serverCommunicationsArray = new ServerCommunicationsArray();
@@ -49,5 +50,8 @@ public class ServerContext {
 
     public void setExitCommandUsed() {
         exitCommandUsed = true;
+    }
+
+    public void getPostgresManager() {
     }
 }

@@ -1,6 +1,6 @@
 package Server.CommandExecution.NetworkCommands;
 
-import Classes.CommandMessage;
+import Classes.Message;
 import Classes.ServerContext;
 import Server.CommandExecution.NetworkCommand;
 
@@ -12,9 +12,9 @@ public class NetworkCommandCheckIfExists extends NetworkCommand {
     }
 
     @Override
-    public String execute(CommandMessage message) throws IOException {
+    public String execute(Message message) throws IOException {
         boolean fl = false;
-        if (serverContext.getStructureStorage().getFlatById(message.numericArgument()) != null) {
+        if (serverContext.getStructureStorage().getFlatById(message.commandMessage().numericArgument()) != null) {
             return "true";
         }
         return "false";

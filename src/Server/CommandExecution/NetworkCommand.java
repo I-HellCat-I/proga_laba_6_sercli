@@ -1,6 +1,6 @@
 package Server.CommandExecution;
 
-import Classes.CommandMessage;
+import Classes.Message;
 import Classes.ServerContext;
 
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * База для всех команд.
  */
-public abstract class NetworkCommand {
+public abstract class NetworkCommand{
 
     protected ServerContext serverContext;
 
@@ -16,7 +16,8 @@ public abstract class NetworkCommand {
         this.serverContext = serverContext;
     }
 
-    public abstract String execute(CommandMessage message) throws IOException;
+
+    public abstract String execute(Message message) throws IOException;
 
     public abstract String toString();
 }

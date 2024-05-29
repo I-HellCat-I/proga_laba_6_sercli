@@ -1,6 +1,6 @@
 package Server.CommandExecution.NetworkCommands;
 
-import Classes.CommandMessage;
+import Classes.Message;
 import Classes.ServerContext;
 import Server.CommandExecution.NetworkCommand;
 
@@ -10,8 +10,8 @@ public class NetworkCommandUpdate extends NetworkCommand {
     }
 
     @Override
-    public String execute(CommandMessage message) {
-        if (!serverContext.getStructureStorage().updateFlatByRecord(message.sendedFlatUpdateRecord())) {
+    public String execute(Message message) {
+        if (!serverContext.getStructureStorage().updateFlatByRecord(message.commandMessage().sendedFlatUpdateRecord())) {
             return ("Квартиры с таким Id не найдено, ничего обновляться не будет");
         }
         return "Ok";

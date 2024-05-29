@@ -48,6 +48,19 @@ public class Flat implements Comparable<Flat> {
         this.id = IdGenerator.generateId();
         this.update(flatUpdateRecord);
     }
+    public Flat(String name, Coordinates coordinates, double area, Integer numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
+        checkIfRight(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
+        id = IdGenerator.generateId();
+        creationDate = ZonedDateTime.now();
+        update(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
+    }
+
+    public Flat(int id, String name, ZonedDateTime creationDate, Coordinates coordinates, double area, Integer numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
+        checkIfRight(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
+        this.id = id;
+        this.creationDate = creationDate;
+        update(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
+    }
 
     /**
      * Генератор Id для Flat'ов. В случае загрузки файла, загруженные Id не будет использовать для выдачи новым Flat'ам
@@ -95,21 +108,6 @@ public class Flat implements Comparable<Flat> {
             }
             loadedIds.clear();
         }
-    }
-
-
-    public Flat(String name, Coordinates coordinates, double area, Integer numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
-        checkIfRight(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
-        id = IdGenerator.generateId();
-        creationDate = ZonedDateTime.now();
-        update(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
-    }
-
-    private Flat(int id, String name, ZonedDateTime creationDate, Coordinates coordinates, double area, Integer numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
-        checkIfRight(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
-        this.id = id;
-        this.creationDate = creationDate;
-        update(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
     }
 
     public void update(String name, Coordinates coordinates, double area, Integer numberOfRooms, Furnish furnish, View view, Transport transport, House house) {

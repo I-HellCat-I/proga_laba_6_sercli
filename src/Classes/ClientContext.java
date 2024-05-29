@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Общий контекст, содержит ссылки на переменные, используемые в разных частях программы, ибо мне лень их передавать
@@ -27,6 +28,9 @@ public class ClientContext {
     @Setter
     protected int maxRecursionDepth = 100;
 
+    private String username;
+    private String password;
+
     public ClientContext() {
         try {
             int incomePort = 3123;
@@ -38,7 +42,21 @@ public class ClientContext {
             throw new RuntimeException(e);
         }
     }
+    public void login(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+    public void logout(){
+        this.password = null;
+        this.username = null;
+    }
+    public UserData getUserData(){
+        return new UserData(username, password);
+    }
 
+    public boolean isLogged(){
+        return !Objects.equals(password, "") && !Objects.equals(username, "");
+    }
 
     public String getPath() {
         return System.getenv(pathVar) + "/saved.xml";

@@ -1,6 +1,6 @@
 package Server.CommandExecution.NetworkCommands;
 
-import Classes.CommandMessage;
+import Classes.Message;
 import Classes.ServerContext;
 import Server.CommandExecution.NetworkCommand;
 
@@ -10,7 +10,7 @@ public class NetworkCommandInfo extends NetworkCommand {
     }
 
     @Override
-    public String execute(CommandMessage message) {
+    public String execute(Message message) {
         return (serverContext.getStructureStorage().getClass() + " " + serverContext.getInitDate() + " " + serverContext.getStructureStorage().getSize());
     }
 

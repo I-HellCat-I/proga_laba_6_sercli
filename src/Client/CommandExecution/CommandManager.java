@@ -43,6 +43,9 @@ public class CommandManager {
         addCommand("sum_of_number_of_rooms", CommandSumOfNumberOfRooms.class);
         addCommand("print_unique_house", CommandPrintUniqueHouse.class);
         addCommand("exit", CommandExit.class);
+        addCommand("login", CommandLogin.class);
+        addCommand("register", CommandRegister.class);
+        addCommand("logout", CommandLogout.class);
     }
 
     public static void addCommand(String s, Class<? extends Command> f) {

@@ -1,6 +1,7 @@
 package Server.CommandExecution;
 
 import Classes.CommandMessage;
+import Classes.Message;
 import Classes.ServerContext;
 import Server.CommandExecution.LocalCommands.LocalCommandSave;
 import Server.CommandExecution.NetworkCommands.*;
@@ -23,6 +24,7 @@ public class CommandManager {
     private HashMap<String, Class<? extends NetworkCommand>> commands = new HashMap<>(); // Хранит в себе команды
     private HashMap<String, Class<? extends LocalCommand>> notNetworkCommands = new HashMap<>();
     private ServerContext serverContext;
+    private CommandThreadFactory commandThreadFactory;
 
     /*
       Блок, задающий базовые команды
@@ -46,6 +48,7 @@ public class CommandManager {
         addCommand("Server.CommandExecution.Commands.CommandCheckIfExists", NetworkCommandCheckIfExists.class);
         addCommand("Server.CommandExecution.Commands.CommandHandShake", NetworkCommandHandShake.class);
         addNotNetoworkCommand("save", LocalCommandSave.class);
+        commandThreadFactory = new CommandThreadFactory(serverContext);
     }
 
     @SneakyThrows
@@ -64,18 +67,17 @@ public class CommandManager {
         notNetworkCommands.put(s, f);
     }
 
-    public <T> void exec(CommandMessage message, ServerCommunicationsArray communicationsArray) {
+    public <T> void exec(Message message, ServerCommunicationsArray communicationsArray) {
         try {
-            if (!commands.containsKey(message.commandClass())){
+            if (!commands.containsKey(message.commandMessage().commandClass())){
                 communicationsArray.sendMessage("No such command");
                 Logger.getAnonymousLogger().log(Level.WARNING, "Server got wrong command");
                 System.out.println(message);
                 return;
             }
-            communicationsArray.sendMessage(
-                    commands.get(message.commandClass()).getConstructor(ServerContext.class)
-                            .newInstance(serverContext).execute(message)
-            );
+            commandThreadFactory.newThread(commands.get(message.commandMessage().commandClass()).getConstructor(ServerContext.class)
+                    .newInstance(serverContext), message);
+
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException |
                  IOException e) {
             Logger.getAnonymousLogger().log(Level.WARNING, "CommandManager.exec", e.getMessage());

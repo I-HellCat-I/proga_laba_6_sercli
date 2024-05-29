@@ -1,6 +1,6 @@
 package Server.CommandExecution.NetworkCommands;
 
-import Classes.CommandMessage;
+import Classes.Message;
 import Classes.ServerContext;
 import Server.CommandExecution.NetworkCommand;
 
@@ -10,8 +10,8 @@ public class NetworkCommandRemoveAt extends NetworkCommand {
     }
 
     @Override
-    public String execute(CommandMessage message) {
-        serverContext.getStructureStorage().removeFlatAt(message.numericArgument());
+    public String execute(Message message) {
+        serverContext.getStructureStorage().removeFlatAt(message.commandMessage().numericArgument());
         return "Ok";
     }
 

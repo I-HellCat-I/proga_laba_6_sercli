@@ -208,4 +208,8 @@ public class Interactor {
             return answer;
         }
     }
+    public String simpleInput(String prompt){
+        System.out.println(prompt + ": ");
+        return scanner.nextLine();
+    }
 }

@@ -7,10 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
+import java.net.*;
 import java.util.Stack;
 
 
@@ -41,7 +38,7 @@ public class CommunicationsArray {
 
 
     public void sendMessage(CommandMessage toSend) throws IOException {
-        byte[] bytes = mapper.writeValueAsBytes(new Message(toSend, (InetSocketAddress) datagramSocket.getLocalSocketAddress()));
+        byte[] bytes = mapper.writeValueAsBytes(new Message(toSend, (InetSocketAddress) datagramSocket.getLocalSocketAddress(), clientContext.getUserData()));
         DatagramPacket packet = new DatagramPacket(bytes, bytes.length, host, 3123);
         datagramSocket.send(packet);
     }

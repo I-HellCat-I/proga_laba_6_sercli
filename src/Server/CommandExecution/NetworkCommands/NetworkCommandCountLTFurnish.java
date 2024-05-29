@@ -1,6 +1,6 @@
 package Server.CommandExecution.NetworkCommands;
 
-import Classes.CommandMessage;
+import Classes.Message;
 import Classes.ServerContext;
 import Server.CommandExecution.NetworkCommand;
 
@@ -10,8 +10,8 @@ public class NetworkCommandCountLTFurnish extends NetworkCommand {
     }
 
     @Override
-    public String execute(CommandMessage message) {
-        return String.valueOf(serverContext.getStructureStorage().countLTFurnish(message.numericArgument()));
+    public String execute(Message message) {
+        return String.valueOf(serverContext.getStructureStorage().countLTFurnish(message.commandMessage().numericArgument()));
     }
 
     @Override
