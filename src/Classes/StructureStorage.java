@@ -22,9 +22,11 @@ public class StructureStorage implements Cleaner.Cleanable {
     @Getter
     protected Stack<Flat> collection = new Stack<>();
     private ServerContext serverContext;
+    private PostgresManager manager;
 
     public StructureStorage(ServerContext serverContext) {
         this.serverContext = serverContext;
+        this.manager = new PostgresManager(serverContext);
     }
 
     public synchronized void sort() {
@@ -34,7 +36,7 @@ public class StructureStorage implements Cleaner.Cleanable {
 
     public void load() { // Запрашивает загрузку коллекции у файлового менеджера
         try {
-            new PostgresManager(serverContext).loadCollectionFromDB();
+            manager.loadCollectionFromDB();
             // collection.addAll((Collection<? extends Flat>) serverContext.getFileManager().loadCollection());
         } catch (NullPointerException | SQLException | IOException e) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Something went wrong during loading of collection");
@@ -42,8 +44,10 @@ public class StructureStorage implements Cleaner.Cleanable {
         }
     }
 
-    public boolean removeFlatById(Integer id) {
-        PostgresManager manager = new PostgresManager(serverContext);
+    public boolean removeFlatById(Integer id, int user_id) {
+        if (manager.deleteById(id, user_id) < 1){
+            return false;
+        }
         for (Flat flat : collection) {
             if (Objects.equals(flat.getId(), id)) {
                 flat.markForDeletion();
@@ -55,16 +59,20 @@ public class StructureStorage implements Cleaner.Cleanable {
     }
 
     public boolean removeLastFlat() {
-        collection.pop();
-        return true;
+        //collection.pop();
+        return false;
     }
 
     public boolean removeFlatAt(int pos) {
-        collection.remove(pos).markForDeletion();
-        return true;
+        //collection.remove(pos).markForDeletion();
+        return false;
     }
 
-    public boolean addFlat(Flat f) {
+    public boolean addFlat(Flat f, int user_id) {
+        if (manager.addNewFlat(f.getUpdateRecord(), user_id) > 0) return collection.add(f);
+        return false;
+    }
+    public boolean loadFlat(Flat f) {
         return collection.add(f);
     }
 
@@ -83,7 +91,8 @@ public class StructureStorage implements Cleaner.Cleanable {
         return ans;
     }
 
-    public void clearCollection() {
+    public void clearCollection(int user_id) {
+        manager.deleteByUserId(user_id);
         collection.clear();
     }
 

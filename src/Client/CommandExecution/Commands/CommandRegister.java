@@ -20,14 +20,15 @@ public class CommandRegister extends Command {
         }
         String username = clientContext.getInteractor().simpleInput("Введите имя пользователя: ");
         String password =  clientContext.getInteractor().simpleInput("Введите пароль: ");
-        clientContext.login(username, password);
+        clientContext.login(username, password, -1);
         clientContext.getCommunicationsArray().sendMessage(new CommandMessage(this.getClass().getName(), -1, null));
         try {
-            String answer = clientContext.getCommunicationsArray().getMessage(String.class);
-            if (Objects.equals(answer, "Что-то пошло не так")){
+            int answer = clientContext.getCommunicationsArray().getMessage(int.class);
+            if (answer == -1){
                 clientContext.logout();
             }
-            return answer;
+            clientContext.setId(answer);
+            return "Здравствуйте, " + username + "!";
         } catch (SocketTimeoutException e){
             clientContext.logout();
             throw new SocketTimeoutException(e.getMessage());

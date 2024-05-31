@@ -11,7 +11,7 @@ public class NetworkCommandRemoveById extends NetworkCommand {
 
     @Override
     public String execute(Message message) {
-        if (!serverContext.getStructureStorage().removeFlatById(message.commandMessage().numericArgument()))
+        if (!serverContext.getStructureStorage().removeFlatById(message.commandMessage().numericArgument(), message.userData().id()))
             return ("Квартиры с таким Id не найдено, ничего не удалено");
         return "Ok";
     }

@@ -12,7 +12,7 @@ public class NetworkCommandClear extends NetworkCommand {
 
     @Override
     public String execute(Message message) {
-        serverContext.getStructureStorage().clearCollection();
+        serverContext.getStructureStorage().clearCollection(message.userData().id());
         return "Ok";
     }
 

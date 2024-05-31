@@ -32,6 +32,7 @@ public class Flat implements Comparable<Flat> {
     private View view; //Поле может быть null
     private Transport transport; //Поле не может быть null
     private House house; //Поле не может быть null
+    private int creator_id;
 
     public Flat(boolean b) { // Used for testing purposes
         this("2", new Coordinates(0.1F, 2), 0.2, 3, Furnish.NONE, View.TERRIBLE, Transport.NONE, new House("4", 5, 6, 7));
@@ -55,11 +56,18 @@ public class Flat implements Comparable<Flat> {
         update(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
     }
 
-    public Flat(int id, String name, ZonedDateTime creationDate, Coordinates coordinates, double area, Integer numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
+    public Flat(int id, int creator_id, String name, ZonedDateTime creationDate, Coordinates coordinates, double area, Integer numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
         checkIfRight(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
         this.id = id;
         this.creationDate = creationDate;
+        this.creator_id = creator_id;
         update(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
+    }
+
+    public FlatUpdateRecord getUpdateRecord() {
+        return new FlatUpdateRecord(name, new CoordinatesUpdateRecord(coordinates.getX(), coordinates.getY()), area, numberOfRooms,
+                furnish, view, transport,
+                new HouseUpdateRecord(house.getName(), house.getYear(), house.getNumberOfFlatsOnFloor(), house.getNumberOfLifts()));
     }
 
     /**
@@ -157,50 +165,6 @@ public class Flat implements Comparable<Flat> {
         IdGenerator.clear();
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
-
-
-    public void setCreationDate(ZonedDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-
-
-    public void setArea(double area) {
-        this.area = area;
-    }
-
-
-    public void setNumberOfRooms(Integer numberOfRooms) {
-        this.numberOfRooms = numberOfRooms;
-    }
-
-
-    public void setFurnish(Furnish furnish) {
-        this.furnish = furnish;
-    }
-
-
-    public void setView(View view) {
-        this.view = view;
-    }
-
-
-    public void setTransport(Transport transport) {
-        this.transport = transport;
-    }
-
-
-    public void setHouse(House house) {
-        this.house = house;
-    }
-
     @Override
     public String toString() {
         return "\t<Flat>\n" +
@@ -243,4 +207,5 @@ public class Flat implements Comparable<Flat> {
     static void finishLoadingIds() {
         IdGenerator.onFullyLoaded();
     }
+
 }

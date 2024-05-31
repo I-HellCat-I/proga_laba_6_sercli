@@ -30,6 +30,8 @@ public class ClientContext {
 
     private String username;
     private String password;
+    @Setter
+    private int id;
 
     public ClientContext() {
         try {
@@ -42,20 +44,22 @@ public class ClientContext {
             throw new RuntimeException(e);
         }
     }
-    public void login(String username, String password){
+    public void login(String username, String password, int id){
         this.username = username;
         this.password = password;
+        this.id = id;
     }
     public void logout(){
         this.password = null;
         this.username = null;
+        this.id = -1;
     }
     public UserData getUserData(){
-        return new UserData(username, password);
+        return new UserData(username, password, id);
     }
 
     public boolean isLogged(){
-        return !Objects.equals(password, "") && !Objects.equals(username, "");
+        return !Objects.equals(password, "") && !Objects.equals(username, "") && id != -1;
     }
 
     public String getPath() {
