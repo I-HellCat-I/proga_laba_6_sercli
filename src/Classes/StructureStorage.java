@@ -38,14 +38,14 @@ public class StructureStorage implements Cleaner.Cleanable {
         try {
             manager.loadCollectionFromDB();
             // collection.addAll((Collection<? extends Flat>) serverContext.getFileManager().loadCollection());
-        } catch (NullPointerException | SQLException | IOException e) {
+        } catch ( SQLException | IOException e) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Something went wrong during loading of collection");
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
     }
 
-    public boolean removeFlatById(Integer id, int user_id) {
-        if (manager.deleteById(id, user_id) < 1){
+    public boolean removeFlatById(Integer id, int userId) {
+        if (manager.deleteById(id, userId) < 1){
             return false;
         }
         for (Flat flat : collection) {
@@ -68,8 +68,8 @@ public class StructureStorage implements Cleaner.Cleanable {
         return false;
     }
 
-    public boolean addFlat(Flat f, int user_id) {
-        if (manager.addNewFlat(f.getUpdateRecord(), user_id) > 0) return collection.add(f);
+    public boolean addFlat(Flat f, int userId) {
+        if (manager.addNewFlat(f.getUpdateRecord(), userId) > 0) return collection.add(f);
         return false;
     }
     public boolean loadFlat(Flat f) {
@@ -91,8 +91,8 @@ public class StructureStorage implements Cleaner.Cleanable {
         return ans;
     }
 
-    public void clearCollection(int user_id) {
-        manager.deleteByUserId(user_id);
+    public void clearCollection(int userId) {
+        manager.deleteByUserId(userId);
         collection.clear();
     }
 

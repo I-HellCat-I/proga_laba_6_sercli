@@ -40,6 +40,10 @@ public class PostgresManager {
     }
     public void loadCollectionFromDB() throws IOException, SQLException {
         ResultSet resultSet = getWithQuery("SELECT * FROM Flat;");
+        if (resultSet == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "ResultSet is null, collection was not loaded");
+            return;
+        }
         while (resultSet.next()) {
             int id = resultSet.getInt("id");
             int creator_id = resultSet.getInt("creator_id");

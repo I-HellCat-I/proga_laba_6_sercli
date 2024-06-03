@@ -52,6 +52,4 @@ public class ServerContext {
         exitCommandUsed = true;
     }
 
-    public void getPostgresManager() {
-    }
 }

@@ -25,11 +25,6 @@ class CommandRunnable implements Runnable {
                     command.execute(message)
             );
         } catch (IOException e) {
-            try {
-                communicationsArray.sendMessage(e.getMessage());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
             Logger.getAnonymousLogger().log(Level.SEVERE, e.getMessage());
         }
     }

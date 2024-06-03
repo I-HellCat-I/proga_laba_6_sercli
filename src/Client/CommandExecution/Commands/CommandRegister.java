@@ -26,6 +26,7 @@ public class CommandRegister extends Command {
             int answer = clientContext.getCommunicationsArray().getMessage(int.class);
             if (answer == -1){
                 clientContext.logout();
+                return "По каким-то причинам, регистрация не удалась, попробуйте снова";
             }
             clientContext.setId(answer);
             return "Здравствуйте, " + username + "!";

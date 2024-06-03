@@ -26,7 +26,7 @@ public class CommandLogin extends Command {
             int answer = clientContext.getCommunicationsArray().getMessage(int.class);
             if (answer == -1){
                 clientContext.logout();
-                System.out.println("Вы ввели неверный логин и/или пароль. Попробуйте снова");
+                return "Вы ввели неверный логин и/или пароль. Попробуйте снова";
             } clientContext.setId(answer);
             return "Здравствуйте, " + username + "!";
         } catch (SocketTimeoutException e){
