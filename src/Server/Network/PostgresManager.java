@@ -38,7 +38,7 @@ public class PostgresManager {
         long numberOfFlatsOnFloor = resultSet.getLong("number_of_flats_on_floor"); //Значение поля должно быть больше 0
         Integer numberOfLifts = resultSet.getInt("number_of_lifts"); //Значение поля должно быть больше 0
         House house = new House(house_name, year, numberOfFlatsOnFloor, numberOfLifts);
-        Flat flat = new Flat(id,creator_id, name, creationDate, coordinates, area, numberOfRooms, furnish, view, transport, house);
+        return new Flat(id,creator_id, name, creationDate, coordinates, area, numberOfRooms, furnish, view, transport, house);
     }
 
     public ResultSet getWithQuery(String query){
