@@ -21,6 +21,26 @@ public class PostgresManager {
 
     }
 
+    private Flat getFlatFromResultSet(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        int creator_id = resultSet.getInt("creator_id");
+        String name = resultSet.getString("name");
+        Coordinates coordinates = new Coordinates(resultSet.getFloat("x"), resultSet.getInt("y"));
+        ZonedDateTime creationDate = ZonedDateTime.parse(resultSet.getString("creation_date"));
+        double area = resultSet.getDouble("area");
+        int numberOfRooms = resultSet.getInt("number_of_rooms");
+        Furnish furnish = Furnish.valueOf(resultSet.getString("furnish"));
+        View view = View.valueOf(resultSet.getString("view"));
+        Transport transport = Transport.valueOf(resultSet.getString("transport"));
+
+        String house_name = resultSet.getString("house_name"); //Поле может быть null
+        int year = resultSet.getInt("year"); //Максимальное значение поля: 630, Значение поля должно быть больше 0
+        long numberOfFlatsOnFloor = resultSet.getLong("number_of_flats_on_floor"); //Значение поля должно быть больше 0
+        Integer numberOfLifts = resultSet.getInt("number_of_lifts"); //Значение поля должно быть больше 0
+        House house = new House(house_name, year, numberOfFlatsOnFloor, numberOfLifts);
+        Flat flat = new Flat(id,creator_id, name, creationDate, coordinates, area, numberOfRooms, furnish, view, transport, house);
+    }
+
     public ResultSet getWithQuery(String query){
         try {
             Properties info = new Properties();
@@ -31,7 +51,7 @@ public class PostgresManager {
             ResultSet rs = connection.createStatement().executeQuery(query);
             return rs;
         } catch (SQLException | IOException e) {
-            Logger.getAnonymousLogger().log(Level.SEVERE,"something went wrong during i/o "); //todo: add causer id
+            Logger.getAnonymousLogger().log(Level.SEVERE,"something went wrong during i/o ");
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -45,24 +65,7 @@ public class PostgresManager {
             return;
         }
         while (resultSet.next()) {
-            int id = resultSet.getInt("id");
-            int creator_id = resultSet.getInt("creator_id");
-            String name = resultSet.getString("name");
-            Coordinates coordinates = new Coordinates(resultSet.getFloat("x"), resultSet.getInt("y"));
-            ZonedDateTime creationDate = ZonedDateTime.parse(resultSet.getString("creation_date"));
-            double area = resultSet.getDouble("area");
-            int numberOfRooms = resultSet.getInt("number_of_rooms");
-            Furnish furnish = Furnish.valueOf(resultSet.getString("furnish"));
-            View view = View.valueOf(resultSet.getString("view"));
-            Transport transport = Transport.valueOf(resultSet.getString("transport"));
-
-            String house_name = resultSet.getString("house_name"); //Поле может быть null
-            int year = resultSet.getInt("year"); //Максимальное значение поля: 630, Значение поля должно быть больше 0
-            long numberOfFlatsOnFloor = resultSet.getLong("number_of_flats_on_floor"); //Значение поля должно быть больше 0
-            Integer numberOfLifts = resultSet.getInt("number_of_lifts"); //Значение поля должно быть больше 0
-            House house = new House(house_name, year, numberOfFlatsOnFloor, numberOfLifts);
-            Flat flat = new Flat(id,creator_id, name, creationDate, coordinates, area, numberOfRooms, furnish, view, transport, house);
-            context.getStructureStorage().loadFlat(flat);
+            context.getStructureStorage().loadFlat(getFlatFromResultSet(resultSet));
         }
     }
     public int authUser(String name, char[] passwd) {
@@ -136,15 +139,15 @@ public class PostgresManager {
         return -1;
     }
 
-    public int deleteById(int id, int user_id){
+    public int deleteById(int id, int userId){
         try {
             Properties info = new Properties();
             info.load(this.getClass().getResourceAsStream("/Server/resources/db.cfg"));
             Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/studs", info);
-            int changed = connection.createStatement().executeUpdate("DELETE * FROM Flat WHERE id = " + id + "AND creator_id" + user_id + ";");
+            int changed = connection.createStatement().executeUpdate("DELETE * FROM Flat WHERE id = " + id + "AND creator_id" + userId + ";");
             return changed;
         } catch (SQLException | IOException e) {
-            Logger.getAnonymousLogger().log(Level.SEVERE,"something went wrong during i/o " + user_id); //todo: add causer id
+            Logger.getAnonymousLogger().log(Level.SEVERE,"something went wrong during i/o " + userId);
             e.printStackTrace();
         } return -1;
     }
@@ -157,11 +160,11 @@ public class PostgresManager {
             int changed = connection.createStatement().executeUpdate("DELETE * FROM Flat WHERE creator_id = " + id + ";");
             return changed;
         } catch (SQLException | IOException e) {
-            Logger.getAnonymousLogger().log(Level.SEVERE,"something went wrong during i/o " + id); //todo: add causer id
+            Logger.getAnonymousLogger().log(Level.SEVERE,"something went wrong during i/o " + id);
             e.printStackTrace();
         } return -1;
     }
-    public int updateById(int id, FlatUpdateRecord flatUpdateRecord, int user_id){
+    public int updateById(int id, FlatUpdateRecord flatUpdateRecord, int userId){
         try {
             Properties info = new Properties();
             info.load(this.getClass().getResourceAsStream("/Server/resources/db.cfg"));
@@ -173,7 +176,7 @@ public class PostgresManager {
                     "view = " + "'"+flatUpdateRecord.view()+"', transport = " + "'"+flatUpdateRecord.transport() + "'," +
                     "house_name = " + "'"+flatUpdateRecord.house().name()+"', year = " + "'"+flatUpdateRecord.house().year() + "'," +
                     "number_of_lifts = " + "'"+flatUpdateRecord.house().numberOfLifts()+"', number_of_flats_on_floor = " + "'"+flatUpdateRecord.house().numberOfFlatsOnFloor() + "'," +
-                    "WHERE creator_id = " + user_id +
+                    "WHERE creator_id = " + userId +
                     " AND id = " + id );
             return changed;
         } catch (SQLException | IOException e) {
@@ -182,7 +185,7 @@ public class PostgresManager {
         } return -1;
     }
 
-    public int addNewFlat(FlatUpdateRecord flatUpdateRecord, int user_id){
+    public int addNewFlat(FlatUpdateRecord flatUpdateRecord, int userId){
         try {
             Properties info = new Properties();
             info.load(this.getClass().getResourceAsStream("/Server/resources/db.cfg"));
@@ -195,7 +198,7 @@ public class PostgresManager {
                     "'"+flatUpdateRecord.view()+"', " + "'"+flatUpdateRecord.transport() + "', " +
                     "'"+flatUpdateRecord.house().name()+"', " + ""+flatUpdateRecord.house().year() + ", " +
                     ""+flatUpdateRecord.house().numberOfLifts()+", " + ""+flatUpdateRecord.house().numberOfFlatsOnFloor() + ", " +
-                    + user_id + ")");
+                    + userId + ")");
             return changed;
         } catch (SQLException | IOException e) {
             Logger.getAnonymousLogger().log(Level.SEVERE,"something went wrong during i/o "); //todo: add causer id
