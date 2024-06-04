@@ -2,6 +2,7 @@ package Server.Network;
 
 import Classes.*;
 import Enums.Furnish;
+import Enums.Queries;
 import Enums.Transport;
 import Enums.View;
 
@@ -59,7 +60,7 @@ public class PostgresManager {
         return null;
     }
     public void loadCollectionFromDB() throws IOException, SQLException {
-        ResultSet resultSet = getWithQuery("SELECT * FROM Flat;");
+        ResultSet resultSet = getWithQuery(Queries.BASE_SELECT.getQuery());
         if (resultSet == null) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "ResultSet is null, collection was not loaded");
             return;
