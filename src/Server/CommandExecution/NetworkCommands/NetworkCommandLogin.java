@@ -17,11 +17,7 @@ public class NetworkCommandLogin extends NetworkCommand {
     @Override
     public String execute(Message message) throws IOException {
         PostgresManager manager = new PostgresManager(serverContext);
-        int id = manager.authUser(message.userData().username(), message.userData().password().toCharArray());
-        if (id == -1){
-            return "Вы ввели неверный логин и/или пароль. Попробуйте снова";
-        }
-        return "Вы залогинены как: " + message.userData().username() + ". Ваш id: " + id;
+        return  String.valueOf(manager.authUser(message.userData().username(), message.userData().password().toCharArray()));
     }
 
     @Override

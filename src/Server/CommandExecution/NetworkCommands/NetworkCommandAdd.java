@@ -13,8 +13,7 @@ public class NetworkCommandAdd extends NetworkCommand {
 
     @Override
     public String execute(Message message) {
-        serverContext.getStructureStorage().addFlat(new Flat(message.commandMessage().sendedFlatUpdateRecord().flatUpdateRecord()), message.userData().id());
-        return "Ok";
+        return String.valueOf(serverContext.getStructureStorage().addFlat(new Flat(message.commandMessage().sendedFlatUpdateRecord().flatUpdateRecord()), message.userData().id()));
     }
 
     @Override

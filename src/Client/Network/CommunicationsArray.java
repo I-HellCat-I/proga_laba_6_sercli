@@ -27,6 +27,8 @@ public class CommunicationsArray {
         mapper = JsonMapper.builder().findAndAddModules().build();
     }
 
+
+
     public <T> T getMessage(Class<T> toGet) throws IOException {
         DatagramPacket lengthPacket = new DatagramPacket(new byte[1000], 1000), messagePacket;
         datagramSocket.receive(lengthPacket);
@@ -44,7 +46,7 @@ public class CommunicationsArray {
     }
 
     public void handshake() throws IOException {
-        sendMessage(new CommandMessage("CommandExecution.Commands.CommandHandShake", -1, null));
+        sendMessage(new CommandMessage("Client.CommandExecution.Commands.CommandHandShake", -1, null));
         datagramSocket.receive(new DatagramPacket(new byte[1000], 1000));
         datagramSocket.receive(new DatagramPacket(new byte[1000], 1000));
     }

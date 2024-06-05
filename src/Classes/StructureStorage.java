@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.lang.ref.Cleaner;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 
 /**
@@ -23,10 +25,12 @@ public class StructureStorage implements Cleaner.Cleanable {
     protected Stack<Flat> collection = new Stack<>();
     private ServerContext serverContext;
     private PostgresManager manager;
+    protected ReentrantLock lock;
 
     public StructureStorage(ServerContext serverContext) {
         this.serverContext = serverContext;
         this.manager = new PostgresManager(serverContext);
+        this.lock = new ReentrantLock();
     }
 
     public synchronized void sort() {
@@ -45,32 +49,58 @@ public class StructureStorage implements Cleaner.Cleanable {
     }
 
     public boolean removeFlatById(Integer id, int userId) {
-        if (manager.deleteById(id, userId) < 1){
-            return false;
-        }
-        for (Flat flat : collection) {
-            if (Objects.equals(flat.getId(), id)) {
-                flat.markForDeletion();
-                collection.remove(flat);
-                return true;
+        lock.lock();
+        try {
+            if (manager.deleteById(id, userId) < 1){
+                return false;
             }
+            for (Flat flat : collection) {
+                if (Objects.equals(flat.getId(), id)) {
+                    flat.markForDeletion();
+                    collection.remove(flat);
+                    return true;
+                }
+            }
+        } finally {
+            lock.unlock();
         }
+
         return false;
     }
 
-    public boolean removeLastFlat() {
-        //collection.pop();
-        return false;
+    public synchronized boolean removeLastFlat() {
+        lock.lock();
+        try {
+            Flat f = collection.peek();
+            return removeFlatById(f.getId(), f.getCreator_id());
+        } finally {
+            lock.unlock();
+        }
     }
 
-    public boolean removeFlatAt(int pos) {
-        //collection.remove(pos).markForDeletion();
-        return false;
+    public synchronized boolean removeFlatAt(int pos) {
+        lock.lock();
+        try {
+            Flat f = collection.elementAt(pos);
+            return removeFlatById(f.getId(), f.getCreator_id());
+        } finally {
+            lock.unlock();
+        }
     }
 
-    public boolean addFlat(Flat f, int userId) {
-        if (manager.addNewFlat(f.getUpdateRecord(), userId) > 0) return collection.add(f);
-        return false;
+    public synchronized boolean addFlat(Flat f, int userId) {
+        lock.lock();
+        try {
+            int id = manager.addNewFlat(f.getUpdateRecord(), userId);
+            if (id > 0) {
+                f.setId(id);
+                return collection.add(f);
+            };
+            return false;
+        } finally {
+            lock.unlock();
+        }
+
     }
     public boolean loadFlat(Flat f) {
         return collection.add(f);
@@ -91,9 +121,16 @@ public class StructureStorage implements Cleaner.Cleanable {
         return ans;
     }
 
-    public void clearCollection(int userId) {
-        manager.deleteByUserId(userId);
-        collection.clear();
+    public synchronized void clearCollection(int userId) {
+        lock.lock();
+        try {
+            manager.deleteByUserId(userId);
+            Stream<Flat> s = collection.stream().filter((f) -> {return (f.getCreator_id() != userId);});
+            collection.clear();
+            s.forEach(collection::push);
+        } finally {
+            lock.unlock();
+        }
     }
 
     public int getNumberOfRoomsSum() {
@@ -142,13 +179,22 @@ public class StructureStorage implements Cleaner.Cleanable {
     };
 
 
-    public boolean updateFlatByRecord(SendedFlatUpdateRecord arg) {
-        for (Flat flat : collection) {
-            if (Objects.equals(flat.getId(), arg.id())) {
-                flat.update(arg.flatUpdateRecord());
-                return true;
+    public synchronized boolean updateFlatByRecord(SendedFlatUpdateRecord arg, int userId) {
+        lock.lock();
+        try {
+            if (manager.updateById(arg.id(), arg.flatUpdateRecord(), userId) < 1){
+                return false;
             }
+            for (Flat flat : collection) {
+                if (Objects.equals(flat.getId(), arg.id())) {
+                    flat.update(arg.flatUpdateRecord());
+                    return true;
+                }
+            }
+        }finally {
+            lock.unlock();
         }
+
         return false;
     }
 }

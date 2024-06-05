@@ -15,10 +15,7 @@ public class NetworkCommandRegister extends NetworkCommand {
     @Override
     public String execute(Message message) throws IOException {
         PostgresManager manager = new PostgresManager(serverContext);
-        int id = manager.regUser(message.userData().username(), message.userData().password().toCharArray());
-        if (id == -1){
-            return "Что-то пошло не так";
-        } return "Вы залогинены как: " + message.userData().username() + ". Ваш id: " + id;
+        return String.valueOf(manager.regUser(message.userData().username(), message.userData().password().toCharArray()));
     }
 
     @Override

@@ -18,8 +18,8 @@ public class CommandLogin extends Command {
 
     @Override
     public String execute() throws IOException {
-        String username = clientContext.getInteractor().simpleInput("Введите имя пользователя: ");
-        String password =  clientContext.getInteractor().simpleInput("Введите пароль: ");
+        String username = clientContext.getInteractor().simpleInput("Введите имя пользователя");
+        String password =  clientContext.getInteractor().simpleInput("Введите пароль");
         clientContext.login(username, password, -1);
         clientContext.getCommunicationsArray().sendMessage(new CommandMessage(this.getClass().getName(), -1, null));
         try {

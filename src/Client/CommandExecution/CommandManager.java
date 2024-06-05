@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Класс, отвечающий за обработку команд
@@ -53,6 +54,9 @@ public class CommandManager {
     }
 
     public String exec(String type, String[] args) {
+        if (!clientContext.isLogged() && (!Objects.equals(type, "login") && !Objects.equals(type, "register"))){
+            return "Перед тем, как что-либо делать вы должны войти в аккаунт";
+        }
         try {
             String commandAnswer = (commands.get(type).getConstructor(String[].class, ClientContext.class)
                     .newInstance((Object) (args == null ? new String[]{""} : args), clientContext)).execute();

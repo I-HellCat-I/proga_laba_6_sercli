@@ -11,7 +11,7 @@ public class NetworkCommandUpdate extends NetworkCommand {
 
     @Override
     public String execute(Message message) {
-        if (!serverContext.getStructureStorage().updateFlatByRecord(message.commandMessage().sendedFlatUpdateRecord())) {
+        if (!serverContext.getStructureStorage().updateFlatByRecord(message.commandMessage().sendedFlatUpdateRecord(), message.userData().id())) {
             return ("Квартиры с таким Id не найдено, ничего обновляться не будет");
         }
         return "Ok";

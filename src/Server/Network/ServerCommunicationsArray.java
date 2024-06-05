@@ -4,6 +4,7 @@ import Classes.CommandMessage;
 import Classes.Message;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -15,10 +16,10 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+@Getter
 public class ServerCommunicationsArray {
-    protected DatagramChannel datagramChannel;
-    protected JsonMapper mapper;
+    protected static DatagramChannel datagramChannel;
+    protected static JsonMapper mapper;
     protected SocketAddress lastClient;
 
     public ServerCommunicationsArray() throws IOException {
@@ -45,6 +46,15 @@ public class ServerCommunicationsArray {
         Logger.getAnonymousLogger().log(Level.INFO, lastClient + " message sent");
         datagramChannel.send(lenBuffer, lastClient);
         datagramChannel.send(byteBuffer, lastClient);
+    }
+    public static void sendMessage(Object toSend, SocketAddress client) throws IOException {
+        Stack<Integer> stack = new Stack<>();
+        ByteBuffer byteBuffer = ByteBuffer.wrap(mapper.writeValueAsBytes(toSend));
+        stack.add(byteBuffer.array().length);
+        ByteBuffer lenBuffer = ByteBuffer.wrap(mapper.writeValueAsBytes(stack));
+        Logger.getAnonymousLogger().log(Level.INFO, client + " message sent");
+        datagramChannel.send(lenBuffer, client);
+        datagramChannel.send(byteBuffer, client);
     }
 
     public void kill() throws IOException {

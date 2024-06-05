@@ -1,9 +1,11 @@
 package Server;
 
+import Classes.Message;
 import Classes.ServerContext;
 import Server.CommandExecution.Interactor;
 
 import java.io.IOException;
+import java.net.SocketAddress;
 import java.util.Scanner;
 
 public class Main {
@@ -21,7 +23,9 @@ public class Main {
         };
         serverCommandsExecutor.start();
         while (true) {
-            serverContext.getCommandManager().exec(serverContext.getServerCommunicationsArray().getMessage(), serverContext.getServerCommunicationsArray());
+            Message message = serverContext.getServerCommunicationsArray().getMessage();
+            SocketAddress lastClient = serverContext.getServerCommunicationsArray().getLastClient();
+            serverContext.getCommandManager().exec(message, lastClient);
         }
     }
 }

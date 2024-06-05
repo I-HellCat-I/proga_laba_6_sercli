@@ -21,7 +21,7 @@ import java.util.HashSet;
 @Setter
 public class Flat implements Comparable<Flat> {
 
-    private final Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
     @JacksonXmlProperty(isAttribute = false, localName = "creationDate")
@@ -169,6 +169,7 @@ public class Flat implements Comparable<Flat> {
     public String toString() {
         return "\t<Flat>\n" +
                 "\t\t<Id>" + id + "</Id>\n" +
+                "\t\t<CreatorId>" + creator_id + "</CreatorId>\n" +
                 "\t\t<Name>" + name + "</Name>\n" +
                 coordinates + "\n" +
                 "\t\t<CreationDate>" + creationDate + "</CreationDate>\n" +

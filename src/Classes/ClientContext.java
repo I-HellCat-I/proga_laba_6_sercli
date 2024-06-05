@@ -31,7 +31,7 @@ public class ClientContext {
     private String username;
     private String password;
     @Setter
-    private int id;
+    private int id = -1;
 
     public ClientContext() {
         try {
