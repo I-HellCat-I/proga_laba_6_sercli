@@ -13,6 +13,8 @@ public class Main {
             System.out.println(Arrays.toString(e.getStackTrace()));
             return;
         }
+        System.out.println("Перед использованием программы надо залогиниться или зарегистрироваться" +
+                "\nlogin - для логина\nregister - для регистрации\nhelp - если вы что-то забыли");
         while (true){
             System.out.print(">");
             clientContext.getInteractor().masterProcessInput(clientContext.getInteractor().getScanner().nextLine());

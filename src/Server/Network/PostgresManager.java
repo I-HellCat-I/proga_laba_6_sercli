@@ -185,13 +185,14 @@ public class PostgresManager {
             Properties info = new Properties();
             info.load(this.getClass().getResourceAsStream("/Server/resources/db.cfg"));
             Connection connection = DriverManager.getConnection(Queries.PSQL_ADDRESS.getQuery(), info);
-            int changed = connection.createStatement().executeUpdate("UPDATE Flat " +
+            int changed = connection.createStatement().executeUpdate("UPDATE Flats " +
                     "SET name = " + "'"+flatUpdateRecord.name()+"', x = " + "'"+flatUpdateRecord.coordinates().x() + "', " +
-                    "y = " + "'"+flatUpdateRecord.coordinates().y()+"', area = " + "'"+flatUpdateRecord.area() + "'," +
+                    "y = " + ""+flatUpdateRecord.coordinates().y()+", area = " + ""+flatUpdateRecord.area() + "," +
                     "number_of_rooms = " + "'"+flatUpdateRecord.numberOfRooms()+"', furnish = " + "'"+flatUpdateRecord.furnish() + "'," +
                     "view = " + "'"+flatUpdateRecord.view()+"', transport = " + "'"+flatUpdateRecord.transport() + "'," +
-                    "house_name = " + "'"+flatUpdateRecord.house().name()+"', year = " + "'"+flatUpdateRecord.house().year() + "'," +
-                    "number_of_lifts = " + "'"+flatUpdateRecord.house().numberOfLifts()+"', с = " + "'"+flatUpdateRecord.house().numberOfFlatsOnFloor() + "'," +
+                    "house_name = " + "'"+flatUpdateRecord.house().name()+"', year = " + ""+flatUpdateRecord.house().year() + "," +
+                    "number_of_lifts = " + ""+flatUpdateRecord.house().numberOfLifts()+", number_of_flats_on_floor = " +
+                    ""+flatUpdateRecord.house().numberOfFlatsOnFloor() + "" +
                     "WHERE creator_id = " + userId +
                     " AND id = " + id );
             return changed;

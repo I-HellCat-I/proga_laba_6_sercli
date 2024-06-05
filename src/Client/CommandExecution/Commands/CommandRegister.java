@@ -34,5 +34,9 @@ public class CommandRegister extends Command {
             clientContext.logout();
             throw new SocketTimeoutException(e.getMessage());
         }
+
+    }
+    public static String description(){
+        return "register : зарегистрировать новый аккаунт";
     }
 }

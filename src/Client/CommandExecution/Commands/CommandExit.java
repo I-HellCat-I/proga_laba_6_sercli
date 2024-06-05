@@ -18,6 +18,6 @@ public class CommandExit extends Command {
     }
 
     public static String description(){
-        return "exit : завершить программу (без сохранения в файл)";
+        return "exit : завершить программу";
     }
 }

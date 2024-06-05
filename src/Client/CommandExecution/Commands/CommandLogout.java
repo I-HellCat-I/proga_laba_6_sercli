@@ -15,4 +15,7 @@ public class CommandLogout extends Command {
         clientContext.logout();
         return "Done";
     }
+    public static String description(){
+        return "logout : выйти из аккаунта";
+    }
 }

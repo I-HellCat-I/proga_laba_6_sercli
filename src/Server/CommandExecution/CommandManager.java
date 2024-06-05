@@ -57,7 +57,7 @@ public class CommandManager {
         addCommand("Client.CommandExecution.Commands.CommandRegister", NetworkCommandRegister.class);
         addNotNetoworkCommand("save", LocalCommandSave.class);
         commandThreadFactory = new CommandThreadFactory(serverContext);
-        executorService = Executors.newSingleThreadExecutor(commandThreadFactory);
+        executorService = Executors.newCachedThreadPool(commandThreadFactory);
     }
 
     @SneakyThrows

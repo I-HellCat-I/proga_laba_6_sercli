@@ -21,7 +21,7 @@ public class CommandUpdate extends Command {
         } catch (NumberFormatException e){
             return "То, что вы ввели - не число";
         }
-        clientContext.getCommunicationsArray().sendMessage(new CommandMessage("CommandExecution.Commands.CommandCheckIfExists", id, null));
+        clientContext.getCommunicationsArray().sendMessage(new CommandMessage("Client.CommandExecution.Commands.CommandCheckIfExists", id, null));
         boolean ans = clientContext.getCommunicationsArray().getMessage(boolean.class);
         if (!ans){
             return "Квартиры с таким id не найдено";

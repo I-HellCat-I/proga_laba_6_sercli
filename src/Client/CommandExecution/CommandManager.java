@@ -54,7 +54,8 @@ public class CommandManager {
     }
 
     public String exec(String type, String[] args) {
-        if (!clientContext.isLogged() && (!Objects.equals(type, "login") && !Objects.equals(type, "register"))){
+        if (!clientContext.isLogged() && (!Objects.equals(type, "login") && !Objects.equals(type, "register"))
+                && !Objects.equals(type, "help")){
             return "Перед тем, как что-либо делать вы должны войти в аккаунт";
         }
         try {

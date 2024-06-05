@@ -34,4 +34,7 @@ public class CommandLogin extends Command {
             throw new SocketTimeoutException(e.getMessage());
         }
     }
+    public static String description(){
+        return "login : залогинится, потребуется ввод пароля и логина";
+    }
 }
